@@ -1,21 +1,17 @@
-import {
-  Injectable,
-  ForbiddenException,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { AccountService } from '../account/account.service';
+import { AdminService } from '../admin/admin.service';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class AuthService {
   constructor(
-    private accountService: AccountService,
+    private adminService: AdminService,
     private jwtService: JwtService,
   ) {}
 
   async login(name: string, password: string) {
-    const account = await this.accountService.findByName(name);
+    const account = await this.adminService.findAccountByName(name);
     if (!account) {
       throw new UnauthorizedException('Invalid credentials');
     }

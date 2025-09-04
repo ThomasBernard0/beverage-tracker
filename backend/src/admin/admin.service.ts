@@ -5,14 +5,14 @@ import {
 } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import * as bcrypt from 'bcrypt';
-import { AccountSummary } from './account.types';
+import { AccountSummary } from './admin.types';
 import { Account } from '@prisma/client';
 
 @Injectable()
-export class AccountService {
+export class AdminService {
   constructor(private prisma: PrismaService) {}
 
-  async findByName(name: string): Promise<Account> {
+  async findAccountByName(name: string): Promise<Account> {
     return this.prisma.account.findUnique({
       where: { name },
     });
@@ -34,7 +34,7 @@ export class AccountService {
   }
 
   async create(name: string, password: string): Promise<AccountSummary> {
-    const existing = await this.findByName(name);
+    const existing = await this.findAccountByName(name);
     if (existing) {
       throw new BadRequestException('Account already exist with this name');
     }

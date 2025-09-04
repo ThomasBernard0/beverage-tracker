@@ -1,32 +1,32 @@
 import { Controller, Post, Body, UseGuards, Put, Get } from '@nestjs/common';
-import { AccountService } from './account.service';
+import { AdminService } from './admin.service';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { SuperAdminGuard } from 'src/auth/superadmin.guard';
 import {
   AccountSummary,
   ChangePasswordDto,
   CreateAccountDto,
-} from './account.types';
+} from './admin.types';
 
-@Controller('api/account')
+@Controller('api/admin')
 @UseGuards(JwtAuthGuard, SuperAdminGuard)
-export class AccountController {
-  constructor(private accountService: AccountService) {}
+export class AdminController {
+  constructor(private adminService: AdminService) {}
 
-  @Get()
+  @Get('account')
   async findAllNonSuperAdmins(): Promise<AccountSummary[]> {
-    return await this.accountService.getNonSuperAdminAccounts();
+    return await this.adminService.getNonSuperAdminAccounts();
   }
 
-  @Post()
+  @Post('account')
   async create(@Body() body: CreateAccountDto): Promise<AccountSummary> {
-    return this.accountService.create(body.name, body.password);
+    return this.adminService.create(body.name, body.password);
   }
 
-  @Put('/password')
+  @Put('password')
   async changePassword(
     @Body() body: ChangePasswordDto,
   ): Promise<{ message: string }> {
-    return this.accountService.changePassword(body.id, body.password);
+    return this.adminService.changePassword(body.id, body.password);
   }
 }

@@ -10,7 +10,7 @@ import {
   IconButton,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import { createAccount } from "../../api/account";
+import { createAccount } from "../../api/admin";
 
 interface CreateAccountModalProps {
   open: boolean;

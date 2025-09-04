@@ -1,59 +1,77 @@
-import api from "./api";
-import type { AccountSummary } from "../types/account";
 import { useEffect, useState } from "react";
+import api from "./api";
+import type { Client, ClientDto, Item, ItemDto } from "../types/account";
 
-export const useAllAccounts = () => {
-  const [accounts, setAccounts] = useState<AccountSummary[]>([]);
+export const useClients = () => {
+  const [clients, setClients] = useState<Client | null>();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchAccounts = async () => {
+  const fetchClients = async () => {
     try {
-      const res = await api.get<AccountSummary[]>("/account");
-      setAccounts(res.data);
+      const res = await api.get<Client | string>("/account/clients");
+      setClients(res.data === "" ? null : (res.data as Client));
     } catch (err: any) {
-      console.error("Failed to fetch accounts:", err);
-      setError("Unable to fetch account list.");
+      console.error("Failed to fetch clients:", err);
+      setError("Unable to fetch clients.");
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchAccounts();
+    fetchClients();
   }, []);
 
-  return { accounts, loading, error, refetch: fetchAccounts };
+  return { clients, loading, error, refetch: fetchClients };
 };
 
-export const createAccount = async (
-  name: string,
-  password: string
-): Promise<AccountSummary> => {
+export const createClient = async (client: ClientDto): Promise<string> => {
   try {
-    const res = await api.post<AccountSummary>("/account", {
-      name,
-      password,
+    const res = await api.post<{ message: string }>("/account/client", {
+      client,
     });
-    return res.data;
+    return res.data.message;
   } catch (error: any) {
-    console.error("Failed to create account:", error);
-    throw new Error("Unable to create account. It may already exist.");
+    console.log("Failed to create client:", error);
+    console.error("Failed to create client:", error);
+    throw new Error("Unable to create client.");
   }
 };
 
-export const changeAccountPassword = async (
-  id: number,
-  password: string
-): Promise<{ message: string }> => {
+export const useItems = () => {
+  const [items, setItems] = useState<Client | null>();
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  const fetchItems = async () => {
+    try {
+      const res = await api.get<Client | string>("/account/items");
+      setItems(res.data === "" ? null : (res.data as Item));
+    } catch (err: any) {
+      console.error("Failed to fetch items:", err);
+      setError("Unable to fetch items.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchItems();
+  }, []);
+
+  return { items, loading, error, refetch: fetchItems };
+};
+
+export const createItem = async (item: ItemDto): Promise<string> => {
   try {
-    const res = await api.put<{ message: string }>("/account/password", {
-      id,
-      password,
+    const res = await api.post<{ message: string }>("/account/item", {
+      item,
     });
-    return res.data;
+    return res.data.message;
   } catch (error: any) {
-    console.error("Failed to update password:", error);
-    throw new Error("Unable to update password. Please try again.");
+    console.log("Failed to create item:", error);
+    console.error("Failed to create item:", error);
+    throw new Error("Unable to create item.");
   }
 };

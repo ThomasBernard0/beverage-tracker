@@ -10,7 +10,7 @@ import {
   IconButton,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import { changeAccountPassword } from "../../api/account";
+import { changeAccountPassword } from "../../api/admin";
 
 interface EditPasswordModalProps {
   open: boolean;

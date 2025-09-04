@@ -13,7 +13,7 @@ import {
   Box,
   CircularProgress,
 } from "@mui/material";
-import { useAllAccounts } from "../api/account";
+import { useAllAccounts } from "../api/admin";
 import CreateAccountModal from "../components/superadmin/CreateAccountModal";
 import EditPasswordModal from "../components/superadmin/EditPasswordModal";
 

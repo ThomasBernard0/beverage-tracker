@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Modal,
   Box,
@@ -27,6 +27,10 @@ const CreateClientModal: React.FC<Props> = ({
   onDelete,
 }) => {
   const [selectedValueId, setSelectedValueId] = useState<string>("");
+
+  useEffect(() => {
+    setSelectedValueId("");
+  }, [open]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();

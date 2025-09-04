@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Modal, Box, Typography, TextField, Button } from "@mui/material";
 
 type Props = {
@@ -9,6 +9,10 @@ type Props = {
 
 const CreateClientModal: React.FC<Props> = ({ open, onClose, onCreate }) => {
   const [name, setName] = useState<string>("");
+
+  useEffect(() => {
+    setName("");
+  }, [open]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();

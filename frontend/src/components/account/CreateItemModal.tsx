@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Modal, Box, Typography, TextField, Button } from "@mui/material";
 import type { ItemDto } from "../../types/account";
 
@@ -11,6 +11,11 @@ type Props = {
 const CreateItemModal: React.FC<Props> = ({ open, onClose, onCreate }) => {
   const [name, setName] = useState<string>("");
   const [price, setPrice] = useState<string>("");
+
+  useEffect(() => {
+    setName("");
+    setPrice("");
+  }, [open]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();

@@ -1,9 +1,16 @@
 import { Box, CircularProgress } from "@mui/material";
 import ClientsList from "../components/account/ClientsList";
-import { createClient, createItem, useClients, useItems } from "../api/account";
+import {
+  createClient,
+  createCommand,
+  createItem,
+  useClients,
+  useItems,
+} from "../api/account";
 import { useState } from "react";
 import ItemsList from "../components/account/ItemsList";
 import type { Item, ItemDto } from "../types/account";
+import CreateClientModal from "../components/account/CreateClientModal";
 
 const AccountPage: React.FC = () => {
   const {
@@ -20,6 +27,7 @@ const AccountPage: React.FC = () => {
   } = useItems();
 
   const [activeClient, setActiveClient] = useState<string>("");
+  const [isCreateClientModalOpen, setIsCreateClientModalOpen] = useState(false);
 
   const handleChangeActiveClient = (id: string) => {
     setActiveClient(id);
@@ -62,19 +70,28 @@ const AccountPage: React.FC = () => {
     return <div style={{ color: "red" }}>{itemError}</div>;
   }
   return (
-    <div>
-      <ClientsList
-        clients={clients}
-        activeClient={activeClient}
-        changeActiveClient={handleChangeActiveClient}
+    <>
+      <div>
+        <ClientsList
+          clients={clients}
+          activeClient={activeClient}
+          changeActiveClient={handleChangeActiveClient}
+          onCreate={() => setIsCreateClientModalOpen(true)}
+        />
+        <ItemsList
+          items={items}
+          orderItem={handleOrderItem}
+          onCreate={handleCreateItem}
+        />
+      </div>
+      <CreateClientModal
+        open={isCreateClientModalOpen}
+        onClose={() => {
+          setIsCreateClientModalOpen(false);
+        }}
         onCreate={handleCreateClient}
       />
-      <ItemsList
-        items={items}
-        orderItem={handleOrderItem}
-        onCreate={handleCreateItem}
-      />
-    </div>
+    </>
   );
 };
 

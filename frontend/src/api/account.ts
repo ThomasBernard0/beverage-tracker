@@ -71,3 +71,20 @@ export const createItem = async (item: ItemDto): Promise<string> => {
     throw new Error("Unable to create item.");
   }
 };
+
+export const createCommand = async (
+  cliendId: string,
+  item: Item
+): Promise<string> => {
+  try {
+    const res = await api.post<{ message: string }>("/account/order", {
+      cliendId,
+      item,
+    });
+    return res.data.message;
+  } catch (error: any) {
+    console.log("Failed to create order:", error);
+    console.error("Failed to create order:", error);
+    throw new Error("Unable to create order.");
+  }
+};

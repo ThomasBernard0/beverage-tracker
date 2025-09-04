@@ -1,28 +1,12 @@
-import { createClient, useClients } from "../../api/account";
-import { Box, Button, CircularProgress, Stack } from "@mui/material";
+import { Button, Stack } from "@mui/material";
+import type { Client } from "../../types/account";
 
-export default function ClientsList() {
-  const { clients, loading, error, refetch } = useClients();
+type Props = {
+  clients: Client[];
+  onCreate: (name: string) => void;
+};
 
-  if (loading) {
-    return (
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          width: "100%",
-        }}
-      >
-        <CircularProgress />
-      </Box>
-    );
-  }
-
-  if (error) {
-    return <div style={{ color: "red" }}>{error}</div>;
-  }
-
+const ClientsList: React.FC<Props> = ({ clients, onCreate }) => {
   return (
     <Stack direction={"row"} spacing={4}>
       {clients.map((client, index) => (
@@ -40,12 +24,12 @@ export default function ClientsList() {
       <Button
         variant={"contained"}
         color={"primary"}
-        onClick={() => {
-          createClient({ name: "test" });
-        }}
+        onClick={() => onCreate("test")}
       >
         +
       </Button>
     </Stack>
   );
-}
+};
+
+export default ClientsList;

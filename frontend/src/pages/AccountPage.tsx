@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
-import { useAuth } from "../context/AuthContext";
+import ClientsList from "../components/account/ClientsList";
 
 const AccountPage: React.FC = () => {
-  const { authState } = useAuth();
-
-  return <div></div>;
+  return (
+    <div>
+      <ClientsList />
+    </div>
+  );
 };
 
 export default AccountPage;

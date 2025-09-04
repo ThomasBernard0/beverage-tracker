@@ -1,22 +1,34 @@
-import { Button, Stack } from "@mui/material";
+import { Button, Container } from "@mui/material";
 import type { Client } from "../../types/account";
 
 type Props = {
   clients: Client[];
+  activeClient: string;
+  changeActiveClient: (id: string) => void;
   onCreate: (name: string) => void;
 };
 
-const ClientsList: React.FC<Props> = ({ clients, onCreate }) => {
+const ClientsList: React.FC<Props> = ({
+  clients,
+  activeClient,
+  changeActiveClient,
+  onCreate,
+}) => {
   return (
-    <Stack direction={"row"} spacing={4}>
+    <Container
+      sx={{
+        display: "flex",
+        flexWrap: "wrap",
+        gap: 2,
+        p: 2,
+      }}
+    >
       {clients.map((client, index) => (
         <Button
           key={index}
-          variant={"contained"}
+          variant={client.id === activeClient ? "contained" : "outlined"}
           color={"primary"}
-          onClick={() => {
-            return;
-          }}
+          onClick={() => changeActiveClient(client.id)}
         >
           {client.name}
         </Button>
@@ -28,7 +40,7 @@ const ClientsList: React.FC<Props> = ({ clients, onCreate }) => {
       >
         +
       </Button>
-    </Stack>
+    </Container>
   );
 };
 

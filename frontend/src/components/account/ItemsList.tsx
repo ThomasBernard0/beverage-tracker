@@ -5,8 +5,14 @@ type Props = {
   items: Item[];
   orderItem: (item: Item) => void;
   onCreate: () => void;
+  onDelete: () => void;
 };
-const ItemsList: React.FC<Props> = ({ items, orderItem, onCreate }) => {
+const ItemsList: React.FC<Props> = ({
+  items,
+  orderItem,
+  onCreate,
+  onDelete,
+}) => {
   return (
     <Container
       sx={{
@@ -32,6 +38,9 @@ const ItemsList: React.FC<Props> = ({ items, orderItem, onCreate }) => {
       ))}
       <Button variant={"contained"} color={"primary"} onClick={onCreate}>
         +
+      </Button>{" "}
+      <Button variant={"contained"} color={"error"} onClick={onDelete}>
+        -
       </Button>
     </Container>
   );

@@ -4,6 +4,8 @@ import {
   createClient,
   createCommand,
   createItem,
+  deleteClient,
+  deleteItem,
   useClients,
   useItems,
 } from "../api/account";
@@ -12,6 +14,7 @@ import ItemsList from "../components/account/ItemsList";
 import type { Item, ItemDto } from "../types/account";
 import CreateClientModal from "../components/account/CreateClientModal";
 import CreateItemModal from "../components/account/CreateItemModal";
+import DeleteClientModal from "../components/account/DeleteModal";
 
 const AccountPage: React.FC = () => {
   const {
@@ -30,6 +33,8 @@ const AccountPage: React.FC = () => {
   const [activeClient, setActiveClient] = useState<string>("");
   const [isCreateClientModalOpen, setIsCreateClientModalOpen] = useState(false);
   const [isCreateItemModalOpen, setIsCreateItemModalOpen] = useState(false);
+  const [isDeleteClientModalOpen, setIsDeleteClientModalOpen] = useState(false);
+  const [isDeleteItemModalOpen, setIsDeleteItemModalOpen] = useState(false);
 
   const handleChangeActiveClient = (id: string) => {
     setActiveClient(id);
@@ -40,9 +45,9 @@ const AccountPage: React.FC = () => {
     await clientRefetch();
   };
 
-  const handleOrderItem = async (item: Item) => {
-    if (!activeClient || activeClient === "") return;
-    await createCommand(activeClient, item);
+  const handleDeleteClient = async (clientId: string) => {
+    await deleteClient(clientId);
+    await clientRefetch();
   };
 
   const handleCreateItem = async (item: ItemDto) => {
@@ -50,6 +55,15 @@ const AccountPage: React.FC = () => {
     await itemRefetch();
   };
 
+  const handleDeleteItem = async (itemId: string) => {
+    await deleteItem(itemId);
+    await itemRefetch();
+  };
+
+  const handleOrderItem = async (item: Item) => {
+    if (!activeClient || activeClient === "") return;
+    await createCommand(activeClient, item);
+  };
   if (clientLoading || itemLoading) {
     return (
       <Box
@@ -79,11 +93,15 @@ const AccountPage: React.FC = () => {
           activeClient={activeClient}
           changeActiveClient={handleChangeActiveClient}
           onCreate={() => setIsCreateClientModalOpen(true)}
+          onDelete={() => setIsDeleteClientModalOpen(true)}
         />
         <ItemsList
           items={items}
           orderItem={handleOrderItem}
           onCreate={() => setIsCreateItemModalOpen(true)}
+          onDelete={() => {
+            setIsDeleteItemModalOpen(true);
+          }}
         />
       </div>
       <CreateClientModal
@@ -99,6 +117,24 @@ const AccountPage: React.FC = () => {
           setIsCreateItemModalOpen(false);
         }}
         onCreate={handleCreateItem}
+      />
+      <DeleteClientModal
+        open={isDeleteClientModalOpen}
+        type={"client"}
+        values={clients}
+        onClose={() => {
+          setIsDeleteClientModalOpen(false);
+        }}
+        onDelete={handleDeleteClient}
+      />
+      <DeleteClientModal
+        open={isDeleteItemModalOpen}
+        type={"item"}
+        values={items}
+        onClose={() => {
+          setIsDeleteItemModalOpen(false);
+        }}
+        onDelete={handleDeleteItem}
       />
     </>
   );

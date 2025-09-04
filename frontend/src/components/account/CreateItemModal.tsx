@@ -45,7 +45,7 @@ const CreateItemModal: React.FC<Props> = ({ open, onClose, onCreate }) => {
         }}
       >
         <Typography variant="h6" mb={2}>
-          Créer un client
+          Créer un item
         </Typography>
         <>
           <TextField
@@ -54,7 +54,7 @@ const CreateItemModal: React.FC<Props> = ({ open, onClose, onCreate }) => {
             value={name}
             onChange={(e) => setName(e.target.value)}
             sx={{ mb: 2 }}
-          />{" "}
+          />
           <TextField
             label="Prix"
             fullWidth

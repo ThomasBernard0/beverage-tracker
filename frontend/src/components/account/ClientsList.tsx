@@ -6,6 +6,7 @@ type Props = {
   activeClient: string;
   changeActiveClient: (id: string) => void;
   onCreate: () => void;
+  onDelete: () => void;
 };
 
 const ClientsList: React.FC<Props> = ({
@@ -13,6 +14,7 @@ const ClientsList: React.FC<Props> = ({
   activeClient,
   changeActiveClient,
   onCreate,
+  onDelete,
 }) => {
   return (
     <Container
@@ -35,6 +37,9 @@ const ClientsList: React.FC<Props> = ({
       ))}
       <Button variant={"contained"} color={"primary"} onClick={onCreate}>
         +
+      </Button>
+      <Button variant={"contained"} color={"error"} onClick={onDelete}>
+        -
       </Button>
     </Container>
   );

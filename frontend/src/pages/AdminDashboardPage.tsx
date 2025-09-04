@@ -13,9 +13,9 @@ import {
   Box,
   CircularProgress,
 } from "@mui/material";
-import { useAllAccounts } from "../../api/account";
-import CreateAccountModal from "../../components/superadmin/CreateAccountModal";
-import EditPasswordModal from "../../components/superadmin/EditPasswordModal";
+import { useAllAccounts } from "../api/account";
+import CreateAccountModal from "../components/superadmin/CreateAccountModal";
+import EditPasswordModal from "../components/superadmin/EditPasswordModal";
 
 const AdminDashboard: React.FC = () => {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);

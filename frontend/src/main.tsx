@@ -4,12 +4,13 @@ import { CssBaseline } from "@mui/material";
 import { AuthProvider } from "./context/AuthContext";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 
+import "./index.css";
+
 import AuthPage from "./pages/AuthPage";
 import PrivateRoute from "./components/PrivateRoute";
 import AdminPrivateRoute from "./components/AdminPrivateRoute";
-import AdminDashboardPage from "./pages/superadmin/AdminDashboardPage";
-
-import "./index.css";
+import AdminDashboardPage from "./pages/AdminDashboardPage";
+import AccountPage from "./pages/AccountPage";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -18,6 +19,10 @@ createRoot(document.getElementById("root")!).render(
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<AuthPage />} />
+          <Route
+            path="/account"
+            element={<PrivateRoute element={<AccountPage />} />}
+          />
           <Route
             path="/admin"
             element={<AdminPrivateRoute element={<AdminDashboardPage />} />}

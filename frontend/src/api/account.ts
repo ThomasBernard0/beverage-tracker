@@ -37,6 +37,19 @@ export const createClient = async (client: ClientDto): Promise<string> => {
   }
 };
 
+export const deleteClient = async (clientId: string): Promise<string> => {
+  try {
+    const res = await api.delete<{ message: string }>(
+      `/account/client/${clientId}`
+    );
+    return res.data.message;
+  } catch (error: any) {
+    console.log("Failed to delete client:", error);
+    console.error("Failed to delete client:", error);
+    throw new Error("Unable to delete client.");
+  }
+};
+
 export const useItems = () => {
   const [items, setItems] = useState<Item[]>([]);
   const [loading, setLoading] = useState(true);
@@ -69,6 +82,19 @@ export const createItem = async (item: ItemDto): Promise<string> => {
     console.log("Failed to create item:", error);
     console.error("Failed to create item:", error);
     throw new Error("Unable to create item.");
+  }
+};
+
+export const deleteItem = async (itemId: string): Promise<string> => {
+  try {
+    const res = await api.delete<{ message: string }>(
+      `/account/item/${itemId}`
+    );
+    return res.data.message;
+  } catch (error: any) {
+    console.log("Failed to delete item:", error);
+    console.error("Failed to delete item:", error);
+    throw new Error("Unable to delete item.");
   }
 };
 

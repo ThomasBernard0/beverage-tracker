@@ -1,4 +1,13 @@
-import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Req,
+  UseGuards,
+} from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { AccountService } from './account.service';
 import { CreateClientDto, CreateItemDto } from './account.types';
@@ -20,6 +29,12 @@ export class AccountController {
     return this.accountService.createClient(accountId, body.name);
   }
 
+  @Delete('client/:id')
+  async deleteClient(@Req() req, @Param('id') clientId: string) {
+    const accountId: number = req.user.sub;
+    return this.accountService.deleteClient(accountId, clientId);
+  }
+
   @Get('items')
   async getItems(@Req() req) {
     const accountId: number = req.user.sub;
@@ -34,5 +49,11 @@ export class AccountController {
       body.name,
       body.priceInCent,
     );
+  }
+
+  @Delete('item/:id')
+  async deleteItem(@Req() req, @Param('id') clientId: string) {
+    const accountId: number = req.user.sub;
+    return this.accountService.deleteItem(accountId, clientId);
   }
 }

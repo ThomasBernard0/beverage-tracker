@@ -29,6 +29,10 @@ export class AccountController {
   @Post('item')
   async createItem(@Req() req, @Body() body: CreateItemDto) {
     const accountId: number = req.user.sub;
-    return this.accountService.createItem(accountId, body.name, body.price);
+    return this.accountService.createItem(
+      accountId,
+      body.name,
+      body.priceInCent,
+    );
   }
 }

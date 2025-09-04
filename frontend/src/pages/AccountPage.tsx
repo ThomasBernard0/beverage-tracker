@@ -11,6 +11,7 @@ import { useState } from "react";
 import ItemsList from "../components/account/ItemsList";
 import type { Item, ItemDto } from "../types/account";
 import CreateClientModal from "../components/account/CreateClientModal";
+import CreateItemModal from "../components/account/CreateItemModal";
 
 const AccountPage: React.FC = () => {
   const {
@@ -28,6 +29,7 @@ const AccountPage: React.FC = () => {
 
   const [activeClient, setActiveClient] = useState<string>("");
   const [isCreateClientModalOpen, setIsCreateClientModalOpen] = useState(false);
+  const [isCreateItemModalOpen, setIsCreateItemModalOpen] = useState(false);
 
   const handleChangeActiveClient = (id: string) => {
     setActiveClient(id);
@@ -44,7 +46,7 @@ const AccountPage: React.FC = () => {
   };
 
   const handleCreateItem = async (item: ItemDto) => {
-    await createItem({ name: item.name, price: item.price });
+    await createItem({ name: item.name, priceInCent: item.priceInCent });
     await itemRefetch();
   };
 
@@ -81,7 +83,7 @@ const AccountPage: React.FC = () => {
         <ItemsList
           items={items}
           orderItem={handleOrderItem}
-          onCreate={handleCreateItem}
+          onCreate={() => setIsCreateItemModalOpen(true)}
         />
       </div>
       <CreateClientModal
@@ -90,6 +92,13 @@ const AccountPage: React.FC = () => {
           setIsCreateClientModalOpen(false);
         }}
         onCreate={handleCreateClient}
+      />
+      <CreateItemModal
+        open={isCreateItemModalOpen}
+        onClose={() => {
+          setIsCreateItemModalOpen(false);
+        }}
+        onCreate={handleCreateItem}
       />
     </>
   );

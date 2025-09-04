@@ -1,10 +1,10 @@
-import { Button, Container } from "@mui/material";
-import type { Item, ItemDto } from "../../types/account";
+import { Button, Container, Typography } from "@mui/material";
+import type { Item } from "../../types/account";
 
 type Props = {
   items: Item[];
   orderItem: (item: Item) => void;
-  onCreate: (itemDto: ItemDto) => void;
+  onCreate: () => void;
 };
 const ItemsList: React.FC<Props> = ({ items, orderItem, onCreate }) => {
   return (
@@ -20,17 +20,17 @@ const ItemsList: React.FC<Props> = ({ items, orderItem, onCreate }) => {
         <Button
           key={index}
           variant={"outlined"}
+          style={{ textTransform: "none" }}
           color={"primary"}
           onClick={() => orderItem(item)}
         >
-          {item.name}
+          <Container sx={{ display: "flex", flexDirection: "column" }}>
+            <Typography>{item.name}</Typography>
+            <Typography>{item.priceInCent / 100}</Typography>
+          </Container>
         </Button>
       ))}
-      <Button
-        variant={"contained"}
-        color={"primary"}
-        onClick={() => onCreate({ name: "test", price: 100 })}
-      >
+      <Button variant={"contained"} color={"primary"} onClick={onCreate}>
         +
       </Button>
     </Container>

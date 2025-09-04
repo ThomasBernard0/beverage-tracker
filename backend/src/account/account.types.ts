@@ -4,5 +4,5 @@ export type CreateClientDto = {
 
 export type CreateItemDto = {
   name: string;
-  price: number;
+  priceInCent: number;
 };

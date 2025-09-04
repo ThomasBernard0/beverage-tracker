@@ -15,10 +15,10 @@ export type ClientDto = {
 export type Item = {
   id: string;
   name: string;
-  price: number;
+  priceInCent: number;
 };
 
 export type ItemDto = {
   name: string;
-  price: number;
+  priceInCent: number;
 };

@@ -5,7 +5,7 @@ type Props = {
   clients: Client[];
   activeClient: string;
   changeActiveClient: (id: string) => void;
-  onCreate: (name: string) => void;
+  onCreate: () => void;
 };
 
 const ClientsList: React.FC<Props> = ({
@@ -33,11 +33,7 @@ const ClientsList: React.FC<Props> = ({
           {client.name}
         </Button>
       ))}
-      <Button
-        variant={"contained"}
-        color={"primary"}
-        onClick={() => onCreate("test")}
-      >
+      <Button variant={"contained"} color={"primary"} onClick={onCreate}>
         +
       </Button>
     </Container>

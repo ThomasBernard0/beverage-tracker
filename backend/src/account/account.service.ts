@@ -42,13 +42,13 @@ export class AccountService {
   async createItem(
     accountId: number,
     name: string,
-    price: number,
+    priceInCent: number,
   ): Promise<Item> {
     try {
       return this.prisma.item.create({
         data: {
           name,
-          price,
+          priceInCent,
           accountId,
         },
       });

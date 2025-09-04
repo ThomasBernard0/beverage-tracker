@@ -1,24 +1,27 @@
 import React, { useState } from "react";
 import { Modal, Box, Typography, TextField, Button } from "@mui/material";
+import type { ItemDto } from "../../types/account";
 
 type Props = {
   open: boolean;
   onClose: () => void;
-  onCreate: (name: string) => void;
+  onCreate: (item: ItemDto) => void;
 };
 
-const CreateClientModal: React.FC<Props> = ({ open, onClose, onCreate }) => {
+const CreateItemModal: React.FC<Props> = ({ open, onClose, onCreate }) => {
   const [name, setName] = useState<string>("");
+  const [price, setPrice] = useState<string>("");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!isFormValid) return;
-    onCreate(name);
+    const priceInCent = Math.round(parseFloat(price) * 100);
+    onCreate({ name, priceInCent });
     onClose();
   };
 
   const isFormValid = () => {
-    return name.trim() !== "";
+    return name.trim() !== "" && price.trim() !== "";
   };
 
   return (
@@ -51,6 +54,13 @@ const CreateClientModal: React.FC<Props> = ({ open, onClose, onCreate }) => {
             value={name}
             onChange={(e) => setName(e.target.value)}
             sx={{ mb: 2 }}
+          />{" "}
+          <TextField
+            label="Prix"
+            fullWidth
+            value={price}
+            onChange={(e) => setPrice(e.target.value)}
+            sx={{ mb: 2 }}
           />
         </>
         <Box sx={{ mt: "auto", pt: 2 }}>
@@ -68,4 +78,4 @@ const CreateClientModal: React.FC<Props> = ({ open, onClose, onCreate }) => {
   );
 };
 
-export default CreateClientModal;
+export default CreateItemModal;

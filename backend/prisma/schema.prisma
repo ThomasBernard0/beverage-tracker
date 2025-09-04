@@ -28,7 +28,7 @@ model Client {
 model Item {
   id        String  @id @default(uuid())
   name      String
-  price     Int
+  priceInCent     Int
   account   Account @relation(fields: [accountId], references: [id], onDelete: Cascade)
   accountId Int
 }

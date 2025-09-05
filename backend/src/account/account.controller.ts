@@ -5,12 +5,18 @@ import {
   Get,
   Param,
   Post,
+  Put,
   Req,
   UseGuards,
 } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { AccountService } from './account.service';
-import { CreateClientDto, CreateItemDto } from './account.types';
+import {
+  CreateClientDto,
+  CreateItemDto,
+  CreateOrderDto,
+  PayOrderDto,
+} from './account.types';
 
 @Controller('api/account')
 @UseGuards(JwtAuthGuard)
@@ -55,5 +61,28 @@ export class AccountController {
   async deleteItem(@Req() req, @Param('id') clientId: string) {
     const accountId: number = req.user.sub;
     return this.accountService.deleteItem(accountId, clientId);
+  }
+
+  @Post('order')
+  async createOrder(@Req() req, @Body() body: CreateOrderDto) {
+    const accountId: number = req.user.sub;
+    return this.accountService.createOrder(
+      accountId,
+      body.itemName,
+      body.priceInCent,
+      body.clientId,
+    );
+  }
+
+  @Delete('order/:id')
+  async deleteOrder(@Req() req, @Param('id') orderId: string) {
+    const accountId: number = req.user.sub;
+    return this.accountService.deleteOrder(accountId, orderId);
+  }
+
+  @Put('order/pay')
+  async payOrder(@Req() req, @Body() body: PayOrderDto) {
+    const accountId: number = req.user.sub;
+    return this.accountService.payOrder(accountId, body.clientId);
   }
 }

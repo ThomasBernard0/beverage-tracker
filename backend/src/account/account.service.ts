@@ -4,7 +4,7 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { Client, Item } from '@prisma/client';
+import { Client, Item, Order } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
@@ -104,5 +104,76 @@ export class AccountService {
 
   async getItemById(id: string): Promise<Client | null> {
     return this.prisma.item.findUnique({ where: { id } });
+  }
+
+  async createOrder(
+    accountId: number,
+    itemName: string,
+    priceInCent: number,
+    clientId: string,
+  ): Promise<Order> {
+    const client = await this.getClientById(clientId);
+    if (!client) throw new NotFoundException('Client not found');
+    this.verifyAccountOwnership(accountId, client.accountId);
+    try {
+      return this.prisma.order.create({
+        data: {
+          itemName,
+          priceInCent,
+          clientId,
+          isPayed: false,
+        },
+      });
+    } catch (error) {
+      throw new BadRequestException('Failed to create client');
+    }
+  }
+
+  async deleteOrder(accountId: number, orderId: string) {
+    const order = await this.getOrderById(orderId);
+    if (!order) throw new NotFoundException('Order not found');
+    const client = await this.getClientById(order.clientId);
+    if (!client) throw new NotFoundException('Client not found');
+    this.verifyAccountOwnership(accountId, client.accountId);
+    try {
+      await this.prisma.order.delete({
+        where: { id: orderId },
+      });
+      return { message: 'Order deleted successfully' };
+    } catch (error) {
+      throw new BadRequestException('Failed to delete order');
+    }
+  }
+
+  async payOrder(accountId: number, clientId: string): Promise<Order[]> {
+    const client = await this.getClientById(clientId);
+    if (!client) throw new NotFoundException('Client not found');
+    this.verifyAccountOwnership(accountId, client.accountId);
+    try {
+      const unpaidOrders = await this.prisma.order.findMany({
+        where: {
+          clientId,
+          isPayed: false,
+        },
+      });
+      if (unpaidOrders.length === 0) return [];
+
+      await this.prisma.order.updateMany({
+        where: {
+          clientId,
+          isPayed: false,
+        },
+        data: {
+          isPayed: true,
+        },
+      });
+      return unpaidOrders.map((order) => ({ ...order, isPayed: true }));
+    } catch {
+      throw new BadRequestException('Failed to pay order');
+    }
+  }
+
+  async getOrderById(id: string): Promise<Order | null> {
+    return this.prisma.order.findUnique({ where: { id } });
   }
 }

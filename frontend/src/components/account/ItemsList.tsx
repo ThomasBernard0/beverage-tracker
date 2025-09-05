@@ -18,13 +18,14 @@ const ItemsList: React.FC<Props> = ({
       sx={{
         display: "flex",
         flexWrap: "wrap",
-        gap: 2,
-        p: 2,
+        gap: 1,
+        p: 1,
       }}
     >
       {items.map((item, index) => (
         <Button
           key={index}
+          sx={{ minHeight: "60px", p: 1 }}
           variant={"outlined"}
           style={{ textTransform: "none" }}
           color={"primary"}
@@ -32,14 +33,24 @@ const ItemsList: React.FC<Props> = ({
         >
           <Box sx={{ display: "flex", flexDirection: "column" }}>
             <Typography>{item.name}</Typography>
-            <Typography>{item.priceInCent / 100}</Typography>
+            <Typography>{(item.priceInCent / 100).toFixed(2)}€</Typography>
           </Box>
         </Button>
       ))}
-      <Button variant={"contained"} color={"primary"} onClick={onCreate}>
+      <Button
+        sx={{ minHeight: "60px", p: 1 }}
+        variant={"contained"}
+        color={"primary"}
+        onClick={onCreate}
+      >
         +
-      </Button>{" "}
-      <Button variant={"contained"} color={"error"} onClick={onDelete}>
+      </Button>
+      <Button
+        sx={{ minHeight: "60px", p: 1 }}
+        variant={"contained"}
+        color={"error"}
+        onClick={onDelete}
+      >
         -
       </Button>
     </Box>

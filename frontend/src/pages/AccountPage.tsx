@@ -127,7 +127,7 @@ const AccountPage: React.FC = () => {
         <Box
           sx={{
             bgcolor: "background.paper",
-            p: 4,
+            p: 2,
             borderRadius: 2,
             boxShadow: 2,
             display: "flex",
@@ -146,7 +146,7 @@ const AccountPage: React.FC = () => {
         <Box
           sx={{
             bgcolor: "background.paper",
-            p: 4,
+            p: 2,
             borderRadius: 2,
             boxShadow: 2,
             display: "flex",

@@ -15,7 +15,7 @@ const OrdersList: React.FC<Props> = ({ orders, onPay, onEdit }) => {
       (total, order) => total + order.priceInCent,
       0
     );
-    return totalInCent / 100;
+    return (totalInCent / 100).toFixed(2);
   };
 
   return (
@@ -25,7 +25,6 @@ const OrdersList: React.FC<Props> = ({ orders, onPay, onEdit }) => {
         flexDirection: "column",
         flexWrap: "wrap",
         gap: 2,
-        p: 2,
       }}
     >
       {orders.map((order, index) => (
@@ -43,7 +42,7 @@ const OrdersList: React.FC<Props> = ({ orders, onPay, onEdit }) => {
           }}
         >
           <Box>{order.name}</Box>
-          <Box>{getTotalPrice(order.orders)}</Box>
+          <Box>{getTotalPrice(order.orders)}€</Box>
           <Box sx={{ display: "flex", gap: 4 }}>
             <Button
               style={{ textTransform: "none" }}

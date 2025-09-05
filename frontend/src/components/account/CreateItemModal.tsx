@@ -26,7 +26,8 @@ const CreateItemModal: React.FC<Props> = ({ open, onClose, onCreate }) => {
   };
 
   const isFormValid = () => {
-    return name.trim() !== "" && price.trim() !== "";
+    const numberRegex = /^\d+(\.\d{1,2})?$/;
+    return name.trim() !== "" && price.trim() !== "" && numberRegex.test(price);
   };
 
   return (

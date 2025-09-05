@@ -83,7 +83,7 @@ const PayOrdersModal: React.FC<Props> = ({
                 >
                   <Typography> {order.itemName}</Typography>
                   <Typography>-</Typography>
-                  <Typography> {order.price}€</Typography>
+                  <Typography> {order.price.toFixed(2)}€</Typography>
                 </Box>
                 <Typography> {order.count}</Typography>
               </Box>

@@ -21,14 +21,14 @@ const ClientsList: React.FC<Props> = ({
       sx={{
         display: "flex",
         flexWrap: "wrap",
-        gap: 2,
-        p: 2,
+        gap: 1,
+        p: 1,
       }}
     >
       {clients.map((client, index) => (
         <Button
           key={index}
-          style={{ textTransform: "none" }}
+          sx={{ textTransform: "none", p: 1 }}
           variant={client.id === activeClient ? "contained" : "outlined"}
           color={"primary"}
           onClick={() => changeActiveClient(client.id)}
@@ -36,10 +36,20 @@ const ClientsList: React.FC<Props> = ({
           {client.name}
         </Button>
       ))}
-      <Button variant={"contained"} color={"primary"} onClick={onCreate}>
+      <Button
+        sx={{ p: 1 }}
+        variant={"contained"}
+        color={"primary"}
+        onClick={onCreate}
+      >
         +
       </Button>
-      <Button variant={"contained"} color={"error"} onClick={onDelete}>
+      <Button
+        sx={{ p: 1 }}
+        variant={"contained"}
+        color={"error"}
+        onClick={onDelete}
+      >
         -
       </Button>
     </Box>

@@ -1,7 +1,7 @@
 # ---- Frontend Build Stage ----
 FROM node:22-alpine AS frontend-builder
 WORKDIR /app/frontend
-ENV VITE_API_BASE_URL=TODO
+ENV VITE_API_BASE_URL=beverage-tracker-production.up.railway.app
 
 # Copy package files and install dependencies
 COPY frontend/package.json frontend/package-lock.json* ./

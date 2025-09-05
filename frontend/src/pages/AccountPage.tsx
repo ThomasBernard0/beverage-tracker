@@ -2,8 +2,8 @@ import { Box, CircularProgress } from "@mui/material";
 import ClientsList from "../components/account/ClientsList";
 import {
   createClient,
-  createCommand,
   createItem,
+  createOrder,
   deleteClient,
   deleteItem,
   useClients,
@@ -70,8 +70,14 @@ const AccountPage: React.FC = () => {
 
   const handleOrderItem = async (item: Item) => {
     if (!activeClient || activeClient === "") return;
-    await createCommand(activeClient, item);
+    await createOrder({
+      itemName: item.name,
+      priceInCent: item.priceInCent,
+      clientId: activeClient,
+    });
+    await orderRefetch();
   };
+
   if (clientLoading || itemLoading || orderLoading) {
     return (
       <Box

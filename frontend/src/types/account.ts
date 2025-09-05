@@ -24,9 +24,10 @@ export type ItemDto = {
 };
 
 export type Orders = {
-  clientId: string;
+  id: string;
+  name: string;
   orders: Order[];
-};
+}[];
 
 export type Order = {
   id: string;

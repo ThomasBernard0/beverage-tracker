@@ -6,17 +6,21 @@ import {
   createOrder,
   deleteClient,
   deleteItem,
+  deleteOrder,
+  payOrder,
   useClients,
   useItems,
   useOrders,
 } from "../api/account";
 import { useState } from "react";
 import ItemsList from "../components/account/ItemsList";
-import type { Item, ItemDto } from "../types/account";
+import type { Item, ItemDto, OrderData } from "../types/account";
 import CreateClientModal from "../components/account/CreateClientModal";
 import CreateItemModal from "../components/account/CreateItemModal";
 import DeleteClientModal from "../components/account/DeleteModal";
 import OrdersList from "../components/account/OrdersList";
+import PayOrdersModal from "../components/account/PayOrdersModal";
+import EditOrdersModal from "../components/account/EditOrdersModal";
 
 const AccountPage: React.FC = () => {
   const {
@@ -39,10 +43,15 @@ const AccountPage: React.FC = () => {
   } = useOrders();
 
   const [activeClient, setActiveClient] = useState<string>("");
+
   const [isCreateClientModalOpen, setIsCreateClientModalOpen] = useState(false);
   const [isCreateItemModalOpen, setIsCreateItemModalOpen] = useState(false);
   const [isDeleteClientModalOpen, setIsDeleteClientModalOpen] = useState(false);
   const [isDeleteItemModalOpen, setIsDeleteItemModalOpen] = useState(false);
+
+  const [isPayOrdersModalOpen, setIsPayOrdersModalOpen] = useState(false);
+  const [isEditOrdersModalOpen, setIsEditOrdersModalOpen] = useState(false);
+  const [activeOrders, setActiveOrders] = useState<OrderData>();
 
   const handleChangeActiveClient = (id: string) => {
     setActiveClient(id);
@@ -78,6 +87,16 @@ const AccountPage: React.FC = () => {
     await orderRefetch();
   };
 
+  const handlePayOrder = async (clientId: string) => {
+    await payOrder(clientId);
+    await orderRefetch();
+  };
+
+  const handleEditOrder = async (orderId: string) => {
+    await deleteOrder(orderId);
+    await orderRefetch();
+  };
+
   if (clientLoading || itemLoading || orderLoading) {
     return (
       <Box
@@ -94,17 +113,17 @@ const AccountPage: React.FC = () => {
   }
 
   if (clientError) {
-    return <div style={{ color: "red" }}>{clientError}</div>;
+    return <Box style={{ color: "red" }}>{clientError}</Box>;
   }
   if (itemError) {
-    return <div style={{ color: "red" }}>{itemError}</div>;
+    return <Box style={{ color: "red" }}>{itemError}</Box>;
   }
   if (orderError) {
-    return <div style={{ color: "red" }}>{orderError}</div>;
+    return <Box style={{ color: "red" }}>{orderError}</Box>;
   }
   return (
     <>
-      <div>
+      <Box>
         <ClientsList
           clients={clients}
           activeClient={activeClient}
@@ -120,8 +139,18 @@ const AccountPage: React.FC = () => {
             setIsDeleteItemModalOpen(true);
           }}
         />
-        <OrdersList orders={orders} />
-      </div>
+        <OrdersList
+          orders={orders}
+          onPay={(orderData: OrderData) => {
+            setActiveOrders(orderData);
+            setIsPayOrdersModalOpen(true);
+          }}
+          onEdit={(orderData: OrderData) => {
+            setActiveOrders(orderData);
+            setIsEditOrdersModalOpen(true);
+          }}
+        />
+      </Box>
       <CreateClientModal
         open={isCreateClientModalOpen}
         onClose={() => {
@@ -153,6 +182,22 @@ const AccountPage: React.FC = () => {
           setIsDeleteItemModalOpen(false);
         }}
         onDelete={handleDeleteItem}
+      />
+      <PayOrdersModal
+        open={isPayOrdersModalOpen}
+        orderData={activeOrders}
+        onClose={() => {
+          setIsPayOrdersModalOpen(false);
+        }}
+        onPay={handlePayOrder}
+      />
+      <EditOrdersModal
+        open={isEditOrdersModalOpen}
+        orderData={activeOrders}
+        onClose={() => {
+          setIsEditOrdersModalOpen(false);
+        }}
+        onEdit={handleEditOrder}
       />
     </>
   );

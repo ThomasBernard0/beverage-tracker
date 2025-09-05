@@ -23,11 +23,13 @@ export type ItemDto = {
   priceInCent: number;
 };
 
-export type Orders = {
+export type Orders = OrderData[];
+
+export type OrderData = {
   id: string;
   name: string;
   orders: Order[];
-}[];
+};
 
 export type Order = {
   id: string;

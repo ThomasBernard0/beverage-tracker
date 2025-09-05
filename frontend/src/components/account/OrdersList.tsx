@@ -1,11 +1,13 @@
 import { Box, Button, Container } from "@mui/material";
-import type { Order, Orders } from "../../types/account";
+import type { Order, OrderData, Orders } from "../../types/account";
 
 type Props = {
   orders: Orders | undefined;
+  onPay: (orderData: OrderData) => void;
+  onEdit: (orderData: OrderData) => void;
 };
 
-const ClientsList: React.FC<Props> = ({ orders }) => {
+const OrdersList: React.FC<Props> = ({ orders, onPay, onEdit }) => {
   if (!orders) return;
 
   const getTotalPrice = (orders: Order[]) => {
@@ -47,13 +49,19 @@ const ClientsList: React.FC<Props> = ({ orders }) => {
               style={{ textTransform: "none" }}
               variant={"contained"}
               color={"success"}
+              onClick={() => {
+                onPay(order);
+              }}
             >
               Payer
             </Button>
             <Button
               style={{ textTransform: "none" }}
               variant={"contained"}
-              color={"primary"}
+              color={"error"}
+              onClick={() => {
+                onEdit(order);
+              }}
             >
               Editer
             </Button>
@@ -64,4 +72,4 @@ const ClientsList: React.FC<Props> = ({ orders }) => {
   );
 };
 
-export default ClientsList;
+export default OrdersList;

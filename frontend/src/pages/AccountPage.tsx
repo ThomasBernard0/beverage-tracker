@@ -1,4 +1,4 @@
-import { Box, CircularProgress } from "@mui/material";
+import { Box, CircularProgress, Typography } from "@mui/material";
 import ClientsList from "../components/account/ClientsList";
 import {
   createClient,
@@ -123,22 +123,46 @@ const AccountPage: React.FC = () => {
   }
   return (
     <>
-      <Box>
-        <ClientsList
-          clients={clients}
-          activeClient={activeClient}
-          changeActiveClient={handleChangeActiveClient}
-          onCreate={() => setIsCreateClientModalOpen(true)}
-          onDelete={() => setIsDeleteClientModalOpen(true)}
-        />
-        <ItemsList
-          items={items}
-          orderItem={handleOrderItem}
-          onCreate={() => setIsCreateItemModalOpen(true)}
-          onDelete={() => {
-            setIsDeleteItemModalOpen(true);
+      <Box sx={{ display: "flex", flexDirection: "column", gap: 2, p: 2 }}>
+        <Box
+          sx={{
+            bgcolor: "background.paper",
+            p: 4,
+            borderRadius: 2,
+            boxShadow: 2,
+            display: "flex",
+            flexDirection: "column",
           }}
-        />
+        >
+          <Typography>Personne</Typography>
+          <ClientsList
+            clients={clients}
+            activeClient={activeClient}
+            changeActiveClient={handleChangeActiveClient}
+            onCreate={() => setIsCreateClientModalOpen(true)}
+            onDelete={() => setIsDeleteClientModalOpen(true)}
+          />
+        </Box>
+        <Box
+          sx={{
+            bgcolor: "background.paper",
+            p: 4,
+            borderRadius: 2,
+            boxShadow: 2,
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          <Typography>Items</Typography>
+          <ItemsList
+            items={items}
+            orderItem={handleOrderItem}
+            onCreate={() => setIsCreateItemModalOpen(true)}
+            onDelete={() => {
+              setIsDeleteItemModalOpen(true);
+            }}
+          />
+        </Box>
         <OrdersList
           orders={orders}
           onPay={(orderData: OrderData) => {

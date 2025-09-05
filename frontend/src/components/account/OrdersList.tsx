@@ -1,4 +1,4 @@
-import { Box, Button, Container } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import type { Order, OrderData, Orders } from "../../types/account";
 
 type Props = {
@@ -19,7 +19,7 @@ const OrdersList: React.FC<Props> = ({ orders, onPay, onEdit }) => {
   };
 
   return (
-    <Container
+    <Box
       sx={{
         display: "flex",
         flexDirection: "column",
@@ -68,7 +68,7 @@ const OrdersList: React.FC<Props> = ({ orders, onPay, onEdit }) => {
           </Box>
         </Box>
       ))}
-    </Container>
+    </Box>
   );
 };
 

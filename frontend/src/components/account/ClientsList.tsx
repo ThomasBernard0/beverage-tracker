@@ -1,4 +1,4 @@
-import { Button, Container } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import type { Client } from "../../types/account";
 
 type Props = {
@@ -17,7 +17,7 @@ const ClientsList: React.FC<Props> = ({
   onDelete,
 }) => {
   return (
-    <Container
+    <Box
       sx={{
         display: "flex",
         flexWrap: "wrap",
@@ -42,7 +42,7 @@ const ClientsList: React.FC<Props> = ({
       <Button variant={"contained"} color={"error"} onClick={onDelete}>
         -
       </Button>
-    </Container>
+    </Box>
   );
 };
 

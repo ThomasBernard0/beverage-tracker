@@ -1,4 +1,4 @@
-import { Button, Container, Typography } from "@mui/material";
+import { Button, Box, Typography } from "@mui/material";
 import type { Item } from "../../types/account";
 
 type Props = {
@@ -14,7 +14,7 @@ const ItemsList: React.FC<Props> = ({
   onDelete,
 }) => {
   return (
-    <Container
+    <Box
       sx={{
         display: "flex",
         flexWrap: "wrap",
@@ -30,10 +30,10 @@ const ItemsList: React.FC<Props> = ({
           color={"primary"}
           onClick={() => orderItem(item)}
         >
-          <Container sx={{ display: "flex", flexDirection: "column" }}>
+          <Box sx={{ display: "flex", flexDirection: "column" }}>
             <Typography>{item.name}</Typography>
             <Typography>{item.priceInCent / 100}</Typography>
-          </Container>
+          </Box>
         </Button>
       ))}
       <Button variant={"contained"} color={"primary"} onClick={onCreate}>
@@ -42,7 +42,7 @@ const ItemsList: React.FC<Props> = ({
       <Button variant={"contained"} color={"error"} onClick={onDelete}>
         -
       </Button>
-    </Container>
+    </Box>
   );
 };
 

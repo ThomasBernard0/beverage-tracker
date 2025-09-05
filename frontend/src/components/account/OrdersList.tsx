@@ -1,4 +1,4 @@
-import { Container } from "@mui/material";
+import { Box, Button, Container } from "@mui/material";
 import type { Order, Orders } from "../../types/account";
 
 type Props = {
@@ -27,10 +27,38 @@ const ClientsList: React.FC<Props> = ({ orders }) => {
       }}
     >
       {orders.map((order, index) => (
-        <div key={index}>
-          <div>{order.name}</div>
-          <div>{getTotalPrice(order.orders)}</div>
-        </div>
+        <Box
+          key={index}
+          sx={{
+            padding: 3,
+            borderRadius: 2,
+            boxShadow: 3,
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            minWidth: 220,
+            minHeight: 60,
+          }}
+        >
+          <Box>{order.name}</Box>
+          <Box>{getTotalPrice(order.orders)}</Box>
+          <Box sx={{ display: "flex", gap: 4 }}>
+            <Button
+              style={{ textTransform: "none" }}
+              variant={"contained"}
+              color={"success"}
+            >
+              Payer
+            </Button>
+            <Button
+              style={{ textTransform: "none" }}
+              variant={"contained"}
+              color={"primary"}
+            >
+              Editer
+            </Button>
+          </Box>
+        </Box>
       ))}
     </Container>
   );

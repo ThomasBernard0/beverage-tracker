@@ -28,6 +28,7 @@ const ClientsList: React.FC<Props> = ({
       {clients.map((client, index) => (
         <Button
           key={index}
+          style={{ textTransform: "none" }}
           variant={client.id === activeClient ? "contained" : "outlined"}
           color={"primary"}
           onClick={() => changeActiveClient(client.id)}

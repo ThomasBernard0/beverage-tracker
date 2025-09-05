@@ -145,6 +145,27 @@ export class AccountService {
     }
   }
 
+  async getUnpaidOrdersByClient(
+    accountId: number,
+  ): Promise<(Client & { orders: Order[] })[]> {
+    const clientsWithOrders = await this.prisma.client.findMany({
+      where: {
+        accountId,
+        orders: {
+          some: {
+            isPayed: false,
+          },
+        },
+      },
+      include: {
+        orders: {
+          where: { isPayed: false },
+        },
+      },
+    });
+    return clientsWithOrders;
+  }
+
   async payOrder(accountId: number, clientId: string): Promise<Order[]> {
     const client = await this.getClientById(clientId);
     if (!client) throw new NotFoundException('Client not found');

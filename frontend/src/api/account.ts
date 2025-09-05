@@ -1,6 +1,14 @@
 import { useEffect, useState } from "react";
 import api from "./api";
-import type { Client, ClientDto, Item, ItemDto } from "../types/account";
+import type {
+  Client,
+  ClientDto,
+  Item,
+  ItemDto,
+  Order,
+  OrderDto,
+  Orders,
+} from "../types/account";
 
 export const useClients = () => {
   const [clients, setClients] = useState<Client[]>([]);
@@ -112,5 +120,66 @@ export const createCommand = async (
     console.log("Failed to create order:", error);
     console.error("Failed to create order:", error);
     throw new Error("Unable to create order.");
+  }
+};
+
+export const useOrders = () => {
+  const [orders, setOrders] = useState<Orders>();
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  const fetchOrders = async () => {
+    try {
+      const res = await api.get<Orders>("/account/orders/unpaid");
+      setOrders(res.data);
+    } catch (err: any) {
+      console.error("Failed to fetch orders:", err);
+      setError("Unable to fetch orders.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchOrders();
+  }, []);
+
+  return { orders, loading, error, refetch: fetchOrders };
+};
+
+export const createOrder = async (order: OrderDto): Promise<string> => {
+  try {
+    const res = await api.post<{ message: string }>(`/account/order/`, order);
+    return res.data.message;
+  } catch (error: any) {
+    console.log("Failed to delete order:", error);
+    console.error("Failed to delete order:", error);
+    throw new Error("Unable to delete order.");
+  }
+};
+
+export const deleteOrder = async (orderId: string): Promise<string> => {
+  try {
+    const res = await api.delete<{ message: string }>(
+      `/account/order/${orderId}`
+    );
+    return res.data.message;
+  } catch (error: any) {
+    console.log("Failed to delete order:", error);
+    console.error("Failed to delete order:", error);
+    throw new Error("Unable to delete order.");
+  }
+};
+
+export const payOrder = async (clientId: string): Promise<string> => {
+  try {
+    const res = await api.put<{ message: string }>(`/account/orders/pay`, {
+      clientId,
+    });
+    return res.data.message;
+  } catch (error: any) {
+    console.log("Failed to pay order:", error);
+    console.error("Failed to pay order:", error);
+    throw new Error("Unable to pay order.");
   }
 };

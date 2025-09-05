@@ -80,7 +80,13 @@ export class AccountController {
     return this.accountService.deleteOrder(accountId, orderId);
   }
 
-  @Put('order/pay')
+  @Get('orders/unpaid')
+  async getUnpaidOrdersByClient(@Req() req) {
+    const accountId: number = req.user.sub;
+    return this.accountService.getUnpaidOrdersByClient(accountId);
+  }
+
+  @Put('orders/pay')
   async payOrder(@Req() req, @Body() body: PayOrderDto) {
     const accountId: number = req.user.sub;
     return this.accountService.payOrder(accountId, body.clientId);

@@ -8,6 +8,7 @@ import {
   deleteItem,
   useClients,
   useItems,
+  useOrders,
 } from "../api/account";
 import { useState } from "react";
 import ItemsList from "../components/account/ItemsList";
@@ -15,6 +16,7 @@ import type { Item, ItemDto } from "../types/account";
 import CreateClientModal from "../components/account/CreateClientModal";
 import CreateItemModal from "../components/account/CreateItemModal";
 import DeleteClientModal from "../components/account/DeleteModal";
+import OrdersList from "../components/account/OrdersList";
 
 const AccountPage: React.FC = () => {
   const {
@@ -29,6 +31,12 @@ const AccountPage: React.FC = () => {
     error: itemError,
     refetch: itemRefetch,
   } = useItems();
+  const {
+    orders,
+    loading: orderLoading,
+    error: orderError,
+    refetch: orderRefetch,
+  } = useOrders();
 
   const [activeClient, setActiveClient] = useState<string>("");
   const [isCreateClientModalOpen, setIsCreateClientModalOpen] = useState(false);
@@ -64,7 +72,7 @@ const AccountPage: React.FC = () => {
     if (!activeClient || activeClient === "") return;
     await createCommand(activeClient, item);
   };
-  if (clientLoading || itemLoading) {
+  if (clientLoading || itemLoading || orderLoading) {
     return (
       <Box
         sx={{
@@ -85,6 +93,9 @@ const AccountPage: React.FC = () => {
   if (itemError) {
     return <div style={{ color: "red" }}>{itemError}</div>;
   }
+  if (orderError) {
+    return <div style={{ color: "red" }}>{orderError}</div>;
+  }
   return (
     <>
       <div>
@@ -103,6 +114,7 @@ const AccountPage: React.FC = () => {
             setIsDeleteItemModalOpen(true);
           }}
         />
+        <OrdersList orders={orders} />
       </div>
       <CreateClientModal
         open={isCreateClientModalOpen}

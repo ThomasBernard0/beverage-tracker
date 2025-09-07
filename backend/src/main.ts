@@ -3,6 +3,7 @@ import { AppModule } from './app.module';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { join } from 'path';
 import { ValidationPipe } from '@nestjs/common';
+import { Request, Response } from 'express';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -16,8 +17,11 @@ async function bootstrap() {
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     allowedHeaders: 'Content-Type, Authorization',
   });
-  app.useStaticAssets(join(__dirname, '..', 'public'), {
-    prefix: '/',
+
+  const staticPath = join(__dirname, '..', 'static');
+  app.useStaticAssets(staticPath, { prefix: '/' });
+  app.use((req: Request, res: Response) => {
+    res.sendFile(join(staticPath, 'index.html'));
   });
 
   await app.listen(process.env.PORT || 3000);

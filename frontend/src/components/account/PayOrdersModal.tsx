@@ -63,30 +63,22 @@ const PayOrdersModal: React.FC<Props> = ({
         <Box
           sx={{
             overflowY: "auto",
+            display: "grid",
+            gridTemplateColumns: "auto auto  1fr auto",
+            columnGap: 2,
+            rowGap: 1,
+            alignItems: "center",
+            width: "100%",
           }}
         >
           {mapOrdersByItem(orderData).map((order, index) => {
             return (
-              <Box
-                key={index}
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-around",
-                }}
-              >
-                <Box
-                  sx={{
-                    display: "flex",
-                    gap: 2,
-                  }}
-                >
-                  <Typography> {order.itemName}</Typography>
-                  <Typography>-</Typography>
-                  <Typography> {order.price.toFixed(2)}€</Typography>
-                </Box>
+              <React.Fragment key={index}>
+                <Typography> {order.itemName}</Typography>
+                <Typography>-</Typography>
+                <Typography> {order.price.toFixed(2)}€</Typography>
                 <Typography> {order.count}</Typography>
-              </Box>
+              </React.Fragment>
             );
           })}
         </Box>

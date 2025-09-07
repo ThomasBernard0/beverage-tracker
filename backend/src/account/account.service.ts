@@ -21,6 +21,9 @@ export class AccountService {
     try {
       return await this.prisma.client.findMany({
         where: { accountId },
+        orderBy: {
+          name: 'asc',
+        },
       });
     } catch (error) {
       throw new BadRequestException('Failed to fetch clients');
@@ -63,6 +66,9 @@ export class AccountService {
     try {
       return await this.prisma.item.findMany({
         where: { accountId },
+        orderBy: {
+          name: 'asc',
+        },
       });
     } catch (error) {
       throw new BadRequestException('Failed to fetch items');

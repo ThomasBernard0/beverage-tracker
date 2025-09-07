@@ -20,7 +20,8 @@ async function bootstrap() {
 
   const staticPath = join(__dirname, '..', 'static');
   app.useStaticAssets(staticPath, { prefix: '/' });
-  app.use((req: Request, res: Response) => {
+  app.use((req: Request, res: Response, next) => {
+    if (req.path.startsWith('/api')) return next();
     res.sendFile(join(staticPath, 'index.html'));
   });
 

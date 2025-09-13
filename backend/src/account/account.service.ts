@@ -168,6 +168,9 @@ export class AccountService {
           where: { isPayed: false },
         },
       },
+      orderBy: {
+        name: 'asc',
+      },
     });
   }
 

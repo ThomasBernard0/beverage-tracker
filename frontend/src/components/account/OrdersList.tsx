@@ -1,5 +1,6 @@
 import { Box, Button } from "@mui/material";
-import type { Order, OrderData, Orders } from "../../types/account";
+import type { OrderData, Orders } from "../../types/account";
+import { getTotalPrice } from "../../utils/getTotalPrice";
 
 type Props = {
   orders: Orders | undefined;
@@ -9,14 +10,6 @@ type Props = {
 
 const OrdersList: React.FC<Props> = ({ orders, onPay, onEdit }) => {
   if (!orders) return;
-
-  const getTotalPrice = (orders: Order[]) => {
-    const totalInCent = orders.reduce(
-      (total, order) => total + order.priceInCent,
-      0
-    );
-    return (totalInCent / 100).toFixed(2);
-  };
 
   return (
     <Box

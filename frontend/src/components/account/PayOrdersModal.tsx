@@ -1,6 +1,7 @@
 import React from "react";
 import { Modal, Box, Button, Typography } from "@mui/material";
 import type { OrderData } from "../../types/account";
+import { getTotalPrice } from "../../utils/getTotalPrice";
 
 type Props = {
   open: boolean;
@@ -82,7 +83,19 @@ const PayOrdersModal: React.FC<Props> = ({
             );
           })}
         </Box>
-        <Box sx={{ mt: "auto", pt: 2 }}>
+        <Box
+          sx={{
+            mt: "auto",
+            pt: 2,
+            display: "flex",
+            flexDirection: "column",
+            gap: 1,
+            alignItems: "center",
+          }}
+        >
+          <Typography sx={{ fontSize: 24, fontWeight: "bold" }}>
+            {getTotalPrice(orderData.orders)}€
+          </Typography>
           <Button
             variant="contained"
             fullWidth

@@ -93,9 +93,21 @@ const PayOrdersModal: React.FC<Props> = ({
             alignItems: "center",
           }}
         >
-          <Typography sx={{ fontSize: 24, fontWeight: "bold" }}>
-            {getTotalPrice(orderData.orders)}€
-          </Typography>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              gap: 4,
+            }}
+          >
+            <Typography sx={{ fontSize: 24, fontWeight: "bold" }}>
+              {orderData.name}
+            </Typography>
+            <Typography sx={{ fontSize: 24, fontWeight: "bold" }}>
+              {getTotalPrice(orderData.orders)}€
+            </Typography>
+          </Box>
+
           <Button
             variant="contained"
             fullWidth

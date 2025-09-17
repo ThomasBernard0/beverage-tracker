@@ -134,7 +134,7 @@ const AccountPage: React.FC = () => {
             flexDirection: "column",
           }}
         >
-          <Typography>Personne</Typography>
+          <Typography>Personnes</Typography>
           <ClientsList
             clients={clients}
             activeClient={activeClient}
@@ -153,7 +153,7 @@ const AccountPage: React.FC = () => {
             flexDirection: "column",
           }}
         >
-          <Typography>Items</Typography>
+          <Typography>Achats</Typography>
           <ItemsList
             items={items}
             orderItem={handleOrderItem}

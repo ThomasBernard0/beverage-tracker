@@ -1,4 +1,4 @@
-import { Box, Button } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import type { Client } from "../../types/account";
 
 type Props = {
@@ -33,7 +33,7 @@ const ClientsList: React.FC<Props> = ({
           color={"primary"}
           onClick={() => changeActiveClient(client.id)}
         >
-          {client.name}
+          <Typography>{client.name}</Typography>
         </Button>
       ))}
       <Button

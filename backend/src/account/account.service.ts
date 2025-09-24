@@ -131,7 +131,7 @@ export class AccountService {
         },
       });
     } catch (error) {
-      throw new BadRequestException('Failed to create client');
+      throw new BadRequestException('Failed to create order');
     }
   }
 

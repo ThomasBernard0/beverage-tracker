@@ -100,14 +100,16 @@ const AccountPage: React.FC = () => {
   const handleOrderItem = async (item: Item) => {
     if (!activeClient || activeClient === "") return;
     try {
-      const message = await createOrder({
+      await createOrder({
         itemName: item.name,
         priceInCent: item.priceInCent,
         clientId: activeClient,
       });
       setNotification({
         open: true,
-        message: `${message} ajouté(e)`,
+        message: `${item.name} ajouté(e) à ${
+          clients.find((c) => (c.id = item.id))?.name
+        }`,
         severity: "success",
       });
       await orderRefetch();

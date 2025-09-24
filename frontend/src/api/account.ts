@@ -131,8 +131,8 @@ export const useOrders = () => {
 
 export const createOrder = async (order: OrderDto): Promise<string> => {
   try {
-    await api.post<{ message: string }>(`/account/order/`, order);
-    return order.itemName;
+    const res = await api.post<{ message: string }>(`/account/order/`, order);
+    return res.data.message;
   } catch (error: any) {
     console.log("Failed to delete order:", error);
     console.error("Failed to delete order:", error);

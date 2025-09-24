@@ -281,7 +281,7 @@ const AccountPage: React.FC = () => {
               <CloseIcon fontSize="small" />
             </IconButton>
           }
-          sx={{ width: "100%" }}
+          sx={{ width: "100%", p: 4 }}
         >
           {notification.message}
         </Alert>

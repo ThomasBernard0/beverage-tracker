@@ -108,7 +108,7 @@ const AccountPage: React.FC = () => {
       setNotification({
         open: true,
         message: `${item.name} ajouté(e) à ${
-          clients.find((c) => (c.id = item.id))?.name
+          clients.find((c) => c.id == activeClient)?.name
         }`,
         severity: "success",
       });

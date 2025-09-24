@@ -1,6 +1,7 @@
 import React from "react";
 import { Modal, Box, Button, Typography } from "@mui/material";
 import type { OrderData } from "../../types/account";
+import { format } from "date-fns";
 
 type Props = {
   open: boolean;
@@ -50,12 +51,15 @@ const EditOrdersModal: React.FC<Props> = ({
                 p: 1,
                 borderRadius: 2,
                 boxShadow: 2,
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
+                display: "grid",
+                gridTemplateColumns: "1fr auto auto",
+                columnGap: 2,
               }}
             >
               <Typography>{order.itemName}</Typography>
+              <Typography>
+                {format(new Date(order.createdAt), "dd MMM yyyy HH:mm")}
+              </Typography>
               <Button
                 variant={"contained"}
                 color={"error"}

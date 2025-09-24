@@ -37,6 +37,7 @@ export type Order = {
   id: string;
   itemName: string;
   priceInCent: number;
+  createdAt: string;
 };
 
 export type OrderDto = {

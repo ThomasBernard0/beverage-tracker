@@ -1,3 +1,5 @@
+import type { AlertColor } from "@mui/material";
+
 export type AccountSummary = {
   id: number;
   name: string;
@@ -41,4 +43,10 @@ export type OrderDto = {
   itemName: string;
   priceInCent: number;
   clientId: string;
+};
+
+export type NotificationProps = {
+  open: boolean;
+  message: string;
+  severity?: AlertColor; // "success" | "error" | "warning" | "info"
 };

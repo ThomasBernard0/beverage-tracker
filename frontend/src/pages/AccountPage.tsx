@@ -1,4 +1,13 @@
-import { Box, CircularProgress, Typography } from "@mui/material";
+import React from "react";
+import {
+  Alert,
+  Box,
+  CircularProgress,
+  IconButton,
+  Snackbar,
+  Typography,
+} from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
 import ClientsList from "../components/account/ClientsList";
 import {
   createClient,
@@ -14,7 +23,12 @@ import {
 } from "../api/account";
 import { useState } from "react";
 import ItemsList from "../components/account/ItemsList";
-import type { Item, ItemDto, OrderData } from "../types/account";
+import type {
+  Item,
+  ItemDto,
+  NotificationProps,
+  OrderData,
+} from "../types/account";
 import CreateClientModal from "../components/account/CreateClientModal";
 import CreateItemModal from "../components/account/CreateItemModal";
 import DeleteClientModal from "../components/account/DeleteModal";
@@ -53,6 +67,12 @@ const AccountPage: React.FC = () => {
   const [isEditOrdersModalOpen, setIsEditOrdersModalOpen] = useState(false);
   const [activeOrders, setActiveOrders] = useState<OrderData>();
 
+  const [notification, setNotification] = useState<NotificationProps>({
+    open: false,
+    message: "",
+    severity: "success",
+  });
+
   const handleChangeActiveClient = (id: string) => {
     setActiveClient(id);
   };
@@ -79,12 +99,25 @@ const AccountPage: React.FC = () => {
 
   const handleOrderItem = async (item: Item) => {
     if (!activeClient || activeClient === "") return;
-    await createOrder({
-      itemName: item.name,
-      priceInCent: item.priceInCent,
-      clientId: activeClient,
-    });
-    await orderRefetch();
+    try {
+      const message = await createOrder({
+        itemName: item.name,
+        priceInCent: item.priceInCent,
+        clientId: activeClient,
+      });
+      setNotification({
+        open: true,
+        message: `${message} ajouté(e)`,
+        severity: "success",
+      });
+      await orderRefetch();
+    } catch (error: any) {
+      setNotification({
+        open: true,
+        message: "Erreur lors de l'ajout",
+        severity: "error",
+      });
+    }
   };
 
   const handlePayOrder = async (clientId: string) => {
@@ -95,6 +128,10 @@ const AccountPage: React.FC = () => {
   const handleEditOrder = async (orderId: string) => {
     await deleteOrder(orderId);
     await orderRefetch();
+  };
+
+  const handleCloseNotification = () => {
+    setNotification((prev) => ({ ...prev, open: false }));
   };
 
   if (clientLoading || itemLoading || orderLoading) {
@@ -223,6 +260,30 @@ const AccountPage: React.FC = () => {
         }}
         onEdit={handleEditOrder}
       />
+      <Snackbar
+        open={notification.open}
+        autoHideDuration={2000}
+        onClose={handleCloseNotification}
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+      >
+        <Alert
+          severity={notification.severity}
+          variant="filled"
+          action={
+            <IconButton
+              size="small"
+              aria-label="close"
+              color="inherit"
+              onClick={handleCloseNotification}
+            >
+              <CloseIcon fontSize="small" />
+            </IconButton>
+          }
+          sx={{ width: "100%" }}
+        >
+          {notification.message}
+        </Alert>
+      </Snackbar>
     </>
   );
 };
